@@ -3,6 +3,7 @@
 		this.container = container;
 
 		var defaults = {};
+		defaults.renderMode = options.renderMode || "divMode";
 		defaults.gridSize = options.gridSize || 20;
 		defaults.textList = options.textList || ["0", "1", "2", "3"];
 		defaults.xTextList = options.xTextList || ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -86,7 +87,8 @@
 			yTextNode.append(list);
 		}
 
-		var chart = $('<div id="git_matrix"></div>').css({
+		var containerName = container + "_git_matrix";
+		var chart = $('<div id="' + containerName + '"></div>').css({
 			"position": "relative",
 			"float": "left"
 		});
@@ -94,15 +96,22 @@
 		dom.append(yTextNode);
 		dom.append(chart);
 
-    var matrix = new Chart.Matrix("git_matrix", {
-    	"width": width,
+		var renderMode = conf.renderMode;
+		var matrix;
+		var matrixOptions = {
+			"width": width,
     	"height": height,
     	"gridSize": gridSize,
     	"areaColors": areaColors,
     	"getX": function (d) { return (d.week - 1) * gridSize; },
     	"getY": function (d) { return (d.day - 1) * gridSize; },
     	"getColor": function (d) { return areaColors[d.value % areaColors.length]; }
-    });
+		};
+		if (renderMode === "svgMode") {
+			matrix = new Chart.MatrixSvg(containerName, matrixOptions);
+		} else {
+			matrix = new Chart.MatrixDiv(containerName, matrixOptions);
+		}
     matrix.loadData(source);
 
     this.matrix = matrix;
@@ -155,8 +164,8 @@
       var thisMonth = date.getMonth();
       if (thisMonth !== month) {
       	month = thisMonth;
-      	var left = node.parent().position().left;
-      	addMonthText(month, left + 5);
+      	var left = node.parent().position().left || node.position().left;
+				addMonthText(month, left + 5);
       }
 
       var context = date.toDateString() + "\n" + (textList[value] || "");

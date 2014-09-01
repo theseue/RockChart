@@ -1,5 +1,5 @@
 ;(function (exports) {
-  var Matrix = exports.Matrix = function (container, options) {
+  var MatrixDiv = exports.MatrixDiv = function (container, options) {
     var dom = $("#" + container);
 
     var defaults = {};
@@ -18,14 +18,14 @@
     this.dom = dom;
   };
 
-  Matrix.prototype.loadData = function (data) {
+  MatrixDiv.prototype.loadData = function (data) {
     if (!data) {
       return false;
     }
     this.data = data;
   };
 
-  Matrix.prototype.render = function () {
+  MatrixDiv.prototype.render = function () {
     var dom = this.dom;
     var conf = this.defaults;
     var gridSize = conf.gridSize;

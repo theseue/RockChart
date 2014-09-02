@@ -25,7 +25,7 @@
     this.data = data;
   };
 
-  MatrixDiv.prototype.render = function () {
+  MatrixDiv.prototype.render = function (callback) {
     var dom = this.dom;
     var conf = this.defaults;
     var gridSize = conf.gridSize;
@@ -65,6 +65,9 @@
     }
 
     dom.append(paper);
+
+    callback = callback || function () {;};
+    callback();
   };
 
 })(window.Chart = window.Chart || {});

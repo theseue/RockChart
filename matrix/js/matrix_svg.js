@@ -39,7 +39,7 @@
     return svg;
   }
 
-  MatrixSvg.prototype.render = function () {
+  MatrixSvg.prototype.render = function (callback) {
     var svg = this._getSVG();
     var conf = this.defaults;
     var gridSize = conf.gridSize;
@@ -72,6 +72,9 @@
         dom.data("info", info);
       })(dom, info);
     });
+
+    callback = callback || function () {;};
+    callback();
   };
 
 })(window.Chart = window.Chart || {});

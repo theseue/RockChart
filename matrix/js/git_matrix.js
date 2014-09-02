@@ -118,8 +118,8 @@
     this.xTextNode = xTextNode;
   };
 
-  GitMatrix.prototype.render = function () {
-    this.matrix.render();
+  GitMatrix.prototype.render = function (callback) {
+    this.matrix.render(callback);
 
     var conf = this.defaults;
     var startDate = conf.startDate;
